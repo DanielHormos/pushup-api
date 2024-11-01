@@ -15,3 +15,9 @@ test("Supertest works!", async () => {
   deepEqual(result.status, 200);
   deepEqual(result.body, { status: "ready" });
 });
+
+test("GET /api/pushup-sessions", async () => {});
+
+test("POST /api/pushup-sessions", async () => {});
+
+test("GET /api/pushup-sessions/:id", async () => {});
