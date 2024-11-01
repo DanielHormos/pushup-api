@@ -12,6 +12,6 @@ beforeEach(() => {
 test("Supertest works!", async () => {
   const result = await request(app).get("/status");
 
-  deepEqual(result.status, 300);
+  deepEqual(result.status, 200);
   deepEqual(result.body, { status: "ready" });
 });
