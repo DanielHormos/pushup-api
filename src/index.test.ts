@@ -17,42 +17,52 @@ test("Supertest works!", async () => {
 });
 
 test("POST /api/sessions", async () => {
-  const session = {
+  const mockSession = {
     sessionUuid: "abcdefghijg",
     repetitions: 250,
     date: "02-11-2024",
-    notes: "Nice workout"
-  }
+    notes: "Nice workout",
+  };
+  const result = await request(app).post("/api/sessions").send(mockSession);
+  deepEqual(result.status, 201);
 
-  const result = await request.(app).post("/api/sessions").send(session)
-  deepEqual(result.status, 201)
-  
-  const getResult = await request(app).get("/api/sessions")
-  const sessions = getResult.body
+  const getResult = await request(app).get("/api/sessions");
+  const sessions = getResult.body;
 
-  deepEqual(session, [session])
-
+  deepEqual(sessions[0], mockSession);
 });
 
 test("GET /api/sessions", async () => {
+  const mockSession = {
+    sessionUuid: "defghijg",
+    repetitions: 250,
+    date: "02-11-2024",
+    notes: "Nice workout",
+  };
+  const mockSession2 = {
+    sessionUuid: "abc",
+    repetitions: 100,
+    date: "02-12-2024",
+    notes: "weird workout",
+  };
+  await request(app).post("/api/sessions").send(mockSession);
+  await request(app).post("/api/sessions").send(mockSession2);
   const result = await request(app).get("/api/sessions");
 
   deepEqual(result.body, [
     {
-      session_uuid: "abc123",
-      repetitions: 50,
-      date: "2024-11-01",
-      notes: "Improved my form",
+      sessionUuid: "defghijg",
+      repetitions: 250,
+      date: "02-11-2024",
+      notes: "Nice workout",
     },
     {
-      session_uuid: "def456",
-      repetitions: 30,
-      date: "2024-11-02",
-      notes: "Felt a bit tired",
+      sessionUuid: "abc",
+      repetitions: 100,
+      date: "02-12-2024",
+      notes: "weird workout",
     },
   ]);
 });
-
-
 
 test.skip("GET /api/sessions/:id", async () => {});
