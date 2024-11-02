@@ -1,6 +1,6 @@
 import express from "express";
-import { createSessionFeature } from "../features/pushup-session";
-import { Session } from "../features/pushup-session/types";
+import { createSessionFeature } from "../features/session";
+import { Session } from "../features/session/types";
 
 function createDb() {
   const sessions: Session[] = [];
