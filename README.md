@@ -1,2 +1,2 @@
 ﻿# pushup-api
-![image](https://github.com/user-attachments/assets/d2eea920-50d1-469e-805c-b09c3e557c78)
+![image](https://github.com/user-attachments/assets/9f4c9ae7-d112-4d6c-8043-6ac55d8e1841)
