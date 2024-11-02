@@ -1,7 +1,7 @@
 import z from "zod";
-export type PushupSession = z.infer<typeof pushupSessionSchema>;
+export type Session = z.infer<typeof sessionSchema>;
 
-export const pushupSessionSchema = z.object({
+export const sessionSchema = z.object({
   sessionUuid: z.string(),
   repetitions: z.number(),
   date: z.date(),
