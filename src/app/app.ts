@@ -1,5 +1,16 @@
 import express from "express";
-import { createPushupSessionFeature } from "../features/pushup-session";
+import { createSessionFeature } from "../features/pushup-session";
+import { Session } from "../features/pushup-session/types";
+
+function createDb() {
+  const sessions: Session[] = [];
+  return {
+    getAll: async () => sessions,
+    add: async (session: Session) => {
+      sessions.push(session);
+    },
+  };
+}
 
 export function createApp() {
   const app = express();
@@ -9,7 +20,8 @@ export function createApp() {
     res.json({ status: "ready" });
   });
 
-  const sessionFeature = createPushupSessionFeature();
+  const sessionDb = createDb();
+  const sessionFeature = createSessionFeature(sessionDb);
 
   app.use("/api/pushup-sessions", sessionFeature.getRouter());
 
