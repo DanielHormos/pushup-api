@@ -1,4 +1,5 @@
 import express from "express";
+import { createPushupSessionFeature } from "../features/pushup-session";
 
 export function createApp() {
   const app = express();
@@ -7,6 +8,10 @@ export function createApp() {
   app.get("/status", async (req, res) => {
     res.json({ status: "ready" });
   });
+
+  const sessionFeature = createPushupSessionFeature();
+
+  app.use("/api/pushup-sessions", sessionFeature.getRouter());
 
   return app;
 }
