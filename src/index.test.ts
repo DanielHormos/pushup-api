@@ -1,7 +1,7 @@
 import { deepEqual } from "assert";
 import test, { beforeEach } from "node:test";
 import request from "supertest";
-import { createApp } from "../app/app";
+import { createApp } from "../src/app/app";
 
 let app;
 
