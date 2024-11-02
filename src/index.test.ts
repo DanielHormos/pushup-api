@@ -16,8 +16,8 @@ test("Supertest works!", async () => {
   deepEqual(result.body, { status: "ready" });
 });
 
-test("GET /api/pushup-sessions", async () => {
-  const result = await request(app).get("/api/pushup-sessions");
+test("GET /api/sessions", async () => {
+  const result = await request(app).get("/api/sessions");
 
   deepEqual(result.body, [
     {
@@ -35,6 +35,6 @@ test("GET /api/pushup-sessions", async () => {
   ]);
 });
 
-test.skip("POST /api/pushup-sessions", async () => {});
+test.skip("POST /api/sessions", async () => {});
 
-test.skip("GET /api/pushup-sessions/:id", async () => {});
+test.skip("GET /api/sessions/:id", async () => {});
