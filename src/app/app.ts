@@ -23,7 +23,7 @@ export function createApp() {
   const sessionDb = createDb();
   const sessionFeature = createSessionFeature(sessionDb);
 
-  app.use("/api/pushup-sessions", sessionFeature.getRouter());
+  app.use("/api/sessions", sessionFeature.getRouter());
 
   return app;
 }
