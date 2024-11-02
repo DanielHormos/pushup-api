@@ -1,10 +1,12 @@
 import { Router } from "express";
 
-function createPushupSessionFeature() {
+export function createPushupSessionFeature() {
   return {
     getRouter() {
       const router = Router();
       router.get("/", (req, res) => {});
+
+      return router;
     },
   };
 }
