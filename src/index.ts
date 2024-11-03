@@ -1,4 +1,4 @@
-import { createApp } from "./app/app";
+import { createApp } from "./app/session-app";
 
 export function startApp() {
   createApp().listen(3000, () => {
