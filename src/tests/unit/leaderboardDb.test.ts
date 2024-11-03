@@ -6,7 +6,7 @@ import {
 import { Leaderboard } from "../../features/leaderboard/types";
 import { deepEqual, strictEqual } from "assert";
 
-describe("LeaderboardDb Unit Tests", () => {
+describe("Leaderboard Unit Tests", () => {
   let leaderboardDb: leaderboardDb;
 
   beforeEach(() => {

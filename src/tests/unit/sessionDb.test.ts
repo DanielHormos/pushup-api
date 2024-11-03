@@ -5,7 +5,7 @@ import {
 } from "../../app/create-db/createSessionDb";
 import { deepEqual, strictEqual } from "assert";
 
-describe("Session functional test", () => {
+describe("Session Unit Test", () => {
   let sessionDb: SessionDb;
 
   beforeEach(() => {
