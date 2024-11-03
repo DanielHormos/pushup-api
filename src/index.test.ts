@@ -86,7 +86,7 @@ test("POST many sessions and GET them", async () => {
   deepEqual(sessions.length, 2);
 });
 
-test("GET /api/sessions/:id", async () => {
+test("GET session that dont exist", async () => {
   const falseUuid = "2036f17e-e7a6-4084-9979-6dd6ee193001";
   const getResult = await request(app).get(`/api/sessions/${falseUuid}`);
   deepEqual(getResult.status, 404);
@@ -106,4 +106,26 @@ test("GET session by uuid after POST", async () => {
     { repetitions: getResult.body.repetitions, notes: getResult.body.notes },
     mockSession
   );
+});
+
+test("Delete session that dont exist", async () => {
+  const falseUuid = "2036f17e-e7a6-4084-9979-6dd6ee193001";
+  const getResult = await request(app).delete(`/api/sessions/${falseUuid}`);
+  deepEqual(getResult.status, 404);
+});
+
+test("DELETE session by uuid after POST", async () => {
+  const mockSession = {
+    repetitions: 250,
+    notes: "nICE WORKOUT",
+  };
+  const postResult = await request(app).post("/api/sessions").send(mockSession);
+  const sessionUuid = postResult.body.sessionUuid;
+
+  const deleteResult = await request(app).delete(
+    `/api/sessions/${sessionUuid}`
+  );
+  deepEqual(deleteResult.status, 200);
+  const getResult = await request(app).get("/api/sessions");
+  deepEqual(getResult.body, []);
 });
