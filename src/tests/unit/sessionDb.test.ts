@@ -55,5 +55,20 @@ describe("Session functional test", () => {
     });
   });
 
-  it("Should throw an error when deleting session that dont exist", async () => {});
+  it("Should throw an error when deleting session that dont exist", async () => {
+    try {
+      await sessionDb.delete("nonExistingUUID");
+    } catch (error) {
+      strictEqual((error as Error).message, "Session not found");
+    }
+  });
+
+  it("Should throw an error when updating nonexisting session", async () => {
+    const updatedData = { repetitions: 30, notes: "Non existant update" };
+    try {
+      await sessionDb.patch("nonExistingUUID", updatedData);
+    } catch (error) {
+      strictEqual((error as Error).message, "Session not found");
+    }
+  });
 });
