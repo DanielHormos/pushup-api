@@ -46,8 +46,6 @@ export function createSessionFeature(db: Db) {
 
       router.delete("/:uuid", async (req, res) => {
         const { uuid } = req.params;
-        console.log(uuid);
-
         try {
           await db.delete(uuid);
           res.status(204).end();
