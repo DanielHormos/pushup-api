@@ -4,8 +4,12 @@ import { Session } from "../features/session/types";
 
 function createDb() {
   const sessions: Session[] = [];
+
   return {
     getAll: async () => sessions,
+    getById: async (uuid: string) => {
+      return sessions.find((session) => session.sessionUuid === uuid) || null;
+    },
     add: async (session: Session) => {
       sessions.push(session);
     },
