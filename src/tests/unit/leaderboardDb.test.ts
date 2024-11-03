@@ -30,4 +30,24 @@ describe("LeaderboardDb Unit Tests", () => {
     const leaderboard = await leaderboardDb.getAll();
     deepEqual(leaderboard, [mockPost]);
   });
+
+  it("should return multiple leaderboard posts", async () => {
+    const post1: Leaderboard = {
+      leaderboardPostUuid: "uuid-123",
+      maxRepetitions: 50,
+      username: "user1",
+    };
+
+    const post2: Leaderboard = {
+      leaderboardPostUuid: "uuid-456",
+      maxRepetitions: 75,
+      username: "user2",
+    };
+
+    await leaderboardDb.add(post1);
+    await leaderboardDb.add(post2);
+
+    const leaderboard = await leaderboardDb.getAll();
+    deepEqual(leaderboard, [post1, post2]);
+  });
 });
