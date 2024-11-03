@@ -22,6 +22,19 @@ function createDb() {
       }
       sessions.splice(index, 1);
     },
+    patch: async (
+      uuid: string,
+      updatedData: Partial<Session>
+    ): Promise<void> => {
+      const index = sessions.findIndex(
+        (session) => session.sessionUuid === uuid
+      );
+      if (index === -1) {
+        throw new Error("Session not found");
+      }
+
+      sessions[index] = { ...sessions[index], ...updatedData };
+    },
   };
 }
 

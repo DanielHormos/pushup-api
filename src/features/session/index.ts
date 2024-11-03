@@ -7,6 +7,7 @@ type Db = {
   getAll: () => Promise<Session[]>;
   add: (session: Session) => Promise<void>;
   delete: (uuid: string) => Promise<void>;
+  patch: (uuid: string, updatedData: Partial<Session>) => Promise<void>;
 };
 
 export function createSessionFeature(db: Db) {
@@ -50,6 +51,18 @@ export function createSessionFeature(db: Db) {
         try {
           await db.delete(uuid);
           res.status(204).end();
+        } catch (error) {
+          res.status(404).json({ error: "Session not found" });
+        }
+      });
+
+      router.patch("/:uuid", async (req, res) => {
+        const { uuid } = req.params;
+        const updatedData = req.body;
+
+        try {
+          await db.patch(uuid, updatedData);
+          res.status(200).json({ message: "Session updated successfully" });
         } catch (error) {
           res.status(404).json({ error: "Session not found" });
         }

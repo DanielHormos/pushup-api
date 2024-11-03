@@ -129,3 +129,38 @@ test("DELETE session by uuid after POST", async () => {
   const getResult = await request(app).get("/api/sessions");
   deepEqual(getResult.body, []);
 });
+
+test("PATCH session by id that dont exist", async () => {
+  const falseUuid = "2036f17e-e7a6-4084-9979-6dd6ee193001";
+  const getResult = await request(app).patch(`/api/sessions/${falseUuid}`);
+  deepEqual(getResult.status, 404);
+});
+
+test("PATCH session by id that exist", async () => {
+  const mockSession = {
+    repetitions: 250,
+    notes: "Patching workout",
+  };
+  const postResult = await request(app).post("/api/sessions").send(mockSession);
+  const sessionUuid = postResult.body.sessionUuid;
+  const date = postResult.body.date;
+
+  const patchResult = await request(app)
+    .patch(`/api/sessions/${sessionUuid}`)
+    .send({
+      sessionUuid: `${sessionUuid}`,
+      date: `${date}`,
+      repetitions: 300,
+      notes: "50 more",
+    });
+  deepEqual(patchResult.status, 200);
+  const getResult = await request(app).get("/api/sessions");
+  deepEqual(getResult.body, [
+    {
+      sessionUuid: `${sessionUuid}`,
+      date: `${date}`,
+      repetitions: 300,
+      notes: "50 more",
+    },
+  ]);
+});
