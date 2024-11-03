@@ -1,7 +1,7 @@
 import { deepEqual } from "assert";
 import test, { beforeEach } from "node:test";
 import request from "supertest";
-import { createApp } from "../src/app/session-app";
+import { createApp } from "../src/app/app";
 
 let app;
 
@@ -163,4 +163,34 @@ test("PATCH session by id that exist", async () => {
       notes: "50 more",
     },
   ]);
+});
+
+test("GET leaderboard when empty", async () => {
+  const getResult = await request(app).get("/api/leaderboard");
+  deepEqual(getResult.body, []);
+});
+
+test("POST empty post to leaderboard", async () => {
+  const mockPost = {};
+  const postResult = await request(app).post("/api/leaderboard").send(mockPost);
+  deepEqual(postResult.status, 400);
+});
+
+test("POST and GET leaderboard post", async () => {
+  const mockPost = {
+    maxRepetitions: 100,
+    username: "roadToGreekGodPhysique",
+  };
+  const postResult = await request(app).post("/api/leaderboard").send(mockPost);
+  deepEqual(postResult.status, 201);
+  const getResult = await request(app).get("/api/leaderboard");
+  const post = getResult.body[0];
+
+  deepEqual(
+    { maxRepetitions: post.maxRepetitions, username: post.username },
+    {
+      maxRepetitions: 100,
+      username: "roadToGreekGodPhysique",
+    }
+  );
 });

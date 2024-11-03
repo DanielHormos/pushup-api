@@ -3,6 +3,6 @@ export type Leaderboard = z.infer<typeof leaderboardSchema>;
 
 export const leaderboardSchema = z.object({
   leaderboardPostUuid: z.string(),
-  maxRepetition: z.number(),
+  maxRepetitions: z.number(),
   username: z.string(),
 });
