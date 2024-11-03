@@ -1,6 +1,6 @@
 import { Session } from "../../features/session/types";
 
-function createSessionDb() {
+export function createSessionDb() {
   const sessions: Session[] = [];
 
   return {
