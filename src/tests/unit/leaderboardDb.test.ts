@@ -17,4 +17,17 @@ describe("LeaderboardDb Unit Tests", () => {
     const leaderboard = await leaderboardDb.getAll();
     deepEqual(leaderboard, []);
   });
+
+  it("should add a leaderboard post and retrieve it", async () => {
+    const mockPost: Leaderboard = {
+      leaderboardPostUuid: "uuid-123",
+      maxRepetitions: 50,
+      username: "user1",
+    };
+
+    await leaderboardDb.add(mockPost);
+
+    const leaderboard = await leaderboardDb.getAll();
+    deepEqual(leaderboard, [mockPost]);
+  });
 });
