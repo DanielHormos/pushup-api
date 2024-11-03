@@ -1,19 +1,39 @@
 import { before, beforeEach, describe, it } from "node:test";
-import { createSessionDb } from "../../app/create-db/createSessionDb";
-import { deepEqual } from "assert";
+import {
+  createSessionDb,
+  SessionDb,
+} from "../../app/create-db/createSessionDb";
+import { deepEqual, strictEqual } from "assert";
 
 describe("Session functional test", () => {
-  let sessionDb;
+  let sessionDb: SessionDb;
+
   beforeEach(() => {
     sessionDb = createSessionDb();
   });
 
   it("Should start with an empty session list", async () => {
     const sessions = await sessionDb.getAll();
-    deepEqual(sessionDb, []);
+    deepEqual(sessions, []);
   });
 
   it("Should add a session and retrieve it by id", async () => {
+    const mockSession = {
+      sessionUuid: "uuid",
+      repetitions: 20,
+      date: "2024-10-22",
+      notes: "Felt tough today",
+    };
+    await sessionDb.add(mockSession);
+
+    const session = await sessionDb.getAll();
+    deepEqual(session, [mockSession]);
+
+    const sessionById = await sessionDb.getById("uuid");
+    strictEqual(sessionById, mockSession);
+  });
+
+  it("Should update a session by ID", async () => {
     const mockSession = {
       sessionUuid: "mocksessionuuid",
       repetitions: 20,
@@ -21,12 +41,19 @@ describe("Session functional test", () => {
       notes: "Felt tough today",
     };
 
-    sessionDb.add(mockSession);
+    await sessionDb.add(mockSession);
 
-    const session = await sessionDb.getAll();
-    deepEqual(session, mockSession);
+    const updatedData = { repetitions: 30, notes: "Felt stronger today" };
+    await sessionDb.patch("mocksessionuuid", updatedData);
 
-    const sessionById = await sessionDb.getById("mocksessionuuid");
-    deepEqual(sessionById, mockSession);
+    const updatedSession = await sessionDb.getById("mocksessionuuid");
+    deepEqual(updatedSession, {
+      sessionUuid: "mocksessionuuid",
+      repetitions: 30,
+      date: "2024-10-22",
+      notes: "Felt stronger today",
+    });
   });
+
+  it("Should throw an error when deleting session that dont exist", async () => {});
 });
