@@ -1,5 +1,4 @@
 import { createApp } from "./app/session-app";
-import { createApp } from "./app/leaderboard-app";
 
 export function startApp() {
   createApp().listen(3000, () => {
