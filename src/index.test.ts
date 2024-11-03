@@ -86,4 +86,24 @@ test("POST many sessions and GET them", async () => {
   deepEqual(sessions.length, 2);
 });
 
-test("GET /api/sessions/:id", async () => {});
+test("GET /api/sessions/:id", async () => {
+  const falseUuid = "2036f17e-e7a6-4084-9979-6dd6ee193001";
+  const getResult = await request(app).get(`/api/sessions/${falseUuid}`);
+  deepEqual(getResult.status, 404);
+});
+
+test("GET session by uuid after POST", async () => {
+  const mockSession = {
+    repetitions: 250,
+    notes: "Nice workout",
+  };
+  const postResult = await request(app).post("/api/sessions").send(mockSession);
+  const sessionUuid = postResult.body.sessionUuid;
+
+  const getResult = await request(app).get(`/api/sessions/${sessionUuid}`);
+  deepEqual(getResult.status, 200);
+  deepEqual(
+    { repetitions: getResult.body.repetitions, notes: getResult.body.notes },
+    mockSession
+  );
+});
