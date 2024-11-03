@@ -1,7 +1,7 @@
 import z from "zod";
-export type LeaderboardPost = z.infer<typeof leaderboardPost>;
+export type Leaderboard = z.infer<typeof leaderboardSchema>;
 
-export const leaderboardPost = z.object({
+export const leaderboardSchema = z.object({
   leaderboardPostUuid: z.string(),
   maxRepetition: z.number(),
   username: z.string(),
