@@ -6,6 +6,7 @@ type Db = {
   getById: (uuid: string) => Promise<Session | null>;
   getAll: () => Promise<Session[]>;
   add: (session: Session) => Promise<void>;
+  delete: (uuid: string) => Promise<void>;
 };
 
 export function createSessionFeature(db: Db) {
@@ -39,6 +40,18 @@ export function createSessionFeature(db: Db) {
           res.status(201).json(session);
         } catch (error) {
           res.status(400).end();
+        }
+      });
+
+      router.delete("/:uuid", async (req, res) => {
+        const { uuid } = req.params;
+        console.log(uuid);
+
+        try {
+          await db.delete(uuid);
+          res.status(204).end();
+        } catch (error) {
+          res.status(404).json({ error: "Session not found" });
         }
       });
 

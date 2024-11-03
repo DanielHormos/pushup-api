@@ -13,6 +13,15 @@ function createDb() {
     add: async (session: Session) => {
       sessions.push(session);
     },
+    delete: async (uuid: string): Promise<void> => {
+      const index = sessions.findIndex(
+        (session) => session.sessionUuid === uuid
+      );
+      if (index === -1) {
+        throw new Error("Session not found");
+      }
+      sessions.splice(index, 1);
+    },
   };
 }
 

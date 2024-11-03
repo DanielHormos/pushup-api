@@ -125,7 +125,7 @@ test("DELETE session by uuid after POST", async () => {
   const deleteResult = await request(app).delete(
     `/api/sessions/${sessionUuid}`
   );
-  deepEqual(deleteResult.status, 200);
+  deepEqual(deleteResult.status, 204);
   const getResult = await request(app).get("/api/sessions");
   deepEqual(getResult.body, []);
 });
