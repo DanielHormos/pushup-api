@@ -1,6 +1,14 @@
 import { Session } from "../../features/session/types";
 
-export function createSessionDb() {
+export interface SessionDb {
+  getAll: () => Promise<Session[]>;
+  getById: (uuid: string) => Promise<Session | null>;
+  add: (session: Session) => Promise<void>;
+  delete: (uuid: string) => Promise<void>;
+  patch: (uuid: string, updatedData: Partial<Session>) => Promise<void>;
+}
+
+export function createSessionDb(): SessionDb {
   const sessions: Session[] = [];
 
   return {
